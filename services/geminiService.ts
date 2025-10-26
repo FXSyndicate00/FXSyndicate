@@ -3,13 +3,8 @@ import { GoogleGenAI } from "@google/genai";
 // FIX: Add EconomicEvent to imports to support the new economic calendar feature.
 import { Trade, AnalysisResult, WebSource, EconomicEvent } from '../types';
 
-const API_KEY = import.meta.env.VITE_API_KEY;
-
-if (!API_KEY) {
-  throw new Error("VITE_API_KEY environment variable not set");
-}
-
-const ai = new GoogleGenAI({ apiKey: API_KEY });
+// FIX: Corrected API key handling to use process.env.API_KEY as per guidelines. This also resolves the TypeScript error with 'import.meta.env'.
+const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
 
 const currencyFormatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
