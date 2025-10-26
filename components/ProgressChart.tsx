@@ -1,7 +1,7 @@
+
 import React, { useEffect, useRef } from 'react';
 import { Trade } from '../types';
-
-declare var Chart: any; // Using Chart.js from CDN
+import Chart from 'chart.js/auto';
 
 interface ProgressChartProps {
     trades: Trade[];
@@ -10,7 +10,7 @@ interface ProgressChartProps {
 
 const ProgressChart: React.FC<ProgressChartProps> = ({ trades, initialBalance }) => {
     const chartRef = useRef<HTMLCanvasElement>(null);
-    const chartInstanceRef = useRef<any>(null);
+    const chartInstanceRef = useRef<Chart | null>(null);
 
     useEffect(() => {
         if (!chartRef.current) return;
@@ -87,6 +87,9 @@ const ProgressChart: React.FC<ProgressChartProps> = ({ trades, initialBalance })
                         ticks: {
                             color: '#9ca3af', // gray-400
                             callback: function(value: any) {
+                                if (typeof value === 'number') {
+                                    return '$' + value.toLocaleString();
+                                }
                                 return '$' + value;
                             }
                         },
